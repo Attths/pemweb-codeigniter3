@@ -8,9 +8,11 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => '',
-	'database' => 'ci3',
+	// konfigurasi yang perlu diperhatikan
+	'password' => 'MySQL5549',
+	'database' => 'ci3_crud',
 	'dbdriver' => 'mysqli',
+	// sampai sini
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
