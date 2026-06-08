@@ -11,4 +11,17 @@ class Mahasiswa extends CI_Controller
     }
 
     // method index(), create(), edit(), delete() menyusul...
+
+    public function index()
+    {
+        $data['title']     = 'Data Mahasiswa';
+        $data['mahasiswa'] = $this->mhs->getAll();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('mahasiswa/index', $data);
+        $this->load->view('templates/footer');
+    }
+
+    
+
 }
