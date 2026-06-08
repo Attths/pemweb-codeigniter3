@@ -52,6 +52,43 @@ class Mahasiswa extends CI_Controller
         }
     }
 
+    public function edit($id)
+    {
+        $mhs = $this->mhs->getById($id);
+        if (!$mhs) show_404(); // data tidak ditemukan
+
+        $this->form_validation->set_rules('nim',     'NIM',     'required');
+        $this->form_validation->set_rules('nama',    'Nama',    'required');
+        $this->form_validation->set_rules('jurusan', 'Jurusan', 'required');
+        $this->form_validation->set_rules('email',   'Email',   'required|valid_email');
+
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = 'Edit Mahasiswa';
+            $data['aksi']  = base_url('mahasiswa/edit/'.$id);
+            $data['mhs']   = $mhs; // data lama untuk mengisi form
+            $this->load->view('templates/header', $data);
+            $this->load->view('mahasiswa/form', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $data = [
+                'nim'     => $this->input->post('nim', TRUE),
+                'nama'    => $this->input->post('nama', TRUE),
+                'jurusan' => $this->input->post('jurusan', TRUE),
+                'email'   => $this->input->post('email', TRUE),
+            ];
+            $this->mhs->update($id, $data);
+            $this->session->set_flashdata('pesan', 'Data berhasil diperbarui!');
+            redirect('mahasiswa');
+        }
+    }
+
+    public function delete($id)
+    {
+        if (!$this->mhs->getById($id)) show_404();
     
+        $this->mhs->delete($id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('mahasiswa');
+    }
 
 }
